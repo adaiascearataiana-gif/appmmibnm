@@ -240,7 +240,7 @@
         const st = s._stats;
         const last = st.lastRaw ? `última em <b>${escapeHtml(st.lastRaw)}</b>` : "ainda não cantada";
         return `
-        <div class="song-card">
+        <div class="song-card" data-idx="${i}">
           <div class="song-main">
             <div class="song-title">${songDisplayName(s)}</div>
             <div class="song-sub">
@@ -252,8 +252,19 @@
       })
       .join("");
 
+    const openIdx = (el) => {
+      const card = el.closest(".song-card");
+      if (!card) return;
+      openModal(list[parseInt(card.dataset.idx, 10)]);
+    };
+    container.querySelectorAll(".song-card").forEach((card) => {
+      card.addEventListener("click", (ev) => {
+        if (ev.target.closest(".stats-btn")) return; // o botão já trata
+        openIdx(card);
+      });
+    });
     container.querySelectorAll(".stats-btn").forEach((btn) => {
-      btn.addEventListener("click", () => openModal(list[parseInt(btn.dataset.idx, 10)]));
+      btn.addEventListener("click", (ev) => { ev.stopPropagation(); openIdx(btn); });
     });
   }
 
@@ -297,15 +308,38 @@
       ? `${escapeHtml(song.titulo)} <span class="artist">— ${escapeHtml(song.artista)}</span>`
       : escapeHtml(song.titulo);
 
+    // Tom (afinação) com o lápis alinhado na mesma linha
+    const tom = (song.execs.map((e) => e.tom).find((t) => t && String(t).trim()) || "").toString().trim();
+    const tomLine = tom
+      ? `<div class="tom-line"><span class="tom-label">Tom</span><span class="tom-value">${escapeHtml(tom)}</span><span class="tom-edit" title="Editar tom">✏️</span></div>`
+      : "";
+
+    // Última formação da banda (cruzamento histórico × escala)
+    const lastExecEsc = execs.find((e) => matchEscala(e));
+    const lastFormLines = lastExecEsc ? formationLines(matchEscala(lastExecEsc)) : [];
+    const lastFormationHtml = lastFormLines.length
+      ? `<div class="last-formation">
+           <h3>Última formação da banda <span class="lf-meta">${escapeHtml(lastExecEsc.data || "")} · ${escapeHtml(lastExecEsc.evento || "Culto")}</span></h3>
+           <div class="formation">${lastFormLines
+             .map(
+               (l) =>
+                 `<div class="f-line"><div class="f-func">${escapeHtml(l.funcao)}</div><div class="f-people">${escapeHtml(l.pessoas)}</div></div>`
+             )
+             .join("")}</div>
+         </div>`
+      : `<div class="last-formation"><h3>Última formação da banda</h3><div class="no-formation">Sem escala registrada para as execuções${STATE.year ? " de " + STATE.year : ""}.</div></div>`;
+
     $("#modalContent").innerHTML = `
       <h2 id="modalTitle">${title}</h2>
       <p class="modal-sub">Estatísticas ${STATE.year ? "de " + STATE.year : "de todo o histórico"}</p>
+      ${tomLine}
       <div class="kpi-row">
         <div class="kpi"><div class="k-label">Vezes cantada</div><div class="k-value">${st.count}</div></div>
         <div class="kpi"><div class="k-label">Última vez</div><div class="k-value">${escapeHtml(st.lastRaw || "—")}</div></div>
         <div class="kpi"><div class="k-label">1ª vez</div><div class="k-value">${escapeHtml(execs.length ? execs[execs.length - 1].data || "—" : "—")}</div></div>
       </div>
-      <h3 style="margin:6px 0 10px;font-size:15px;color:var(--muted)">Execuções (culto e equipe escalada)</h3>
+      ${lastFormationHtml}
+      <h3 class="exec-title">Execuções (culto e equipe escalada)</h3>
       ${execHtml}
     `;
     $("#modal").hidden = false;

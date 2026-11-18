@@ -6,11 +6,13 @@ do Supabase e mostra:
 - **Busca por nome** da música ou do autor/banda.
 - **Filtro por ano** (as estatísticas passam a considerar só aquele ano).
 - **Autor/banda ao lado da música**, no formato `TÍTULO — Autor` (ex.: `ACLAME AO SENHOR — Diante do Trono`).
-- Botão **📊 Estatísticas** em cada música, com:
-  - quantas vezes foi cantada,
-  - a última data,
-  - e, **para cada execução**, o culto (evento) e as **pessoas escaladas com suas funções**
-    (Vocal, Instrumentos, Direção do Culto, Devocional, Equipe de Som) vindas da `escala`.
+- Vale para **todas as músicas da plataforma**, sejam músicas ou hinos (agrupa pelo `musicas_cantadas`).
+- Ao **entrar em cada música** (clique no card ou no botão), abre o detalhe com:
+  - **Tom** (afinação) com o lápis alinhado na mesma linha,
+  - **quantas vezes foi cantada**, a **última vez** e a **1ª vez**,
+  - a **última formação da banda** que tocou e cantou (cruzamento do histórico com a `escala` —
+    mostra Vocal, Instrumentos, Direção do Culto, Devocional e Equipe de Som da execução mais recente que teve escala),
+  - e, **para cada execução**, o culto (evento) e as **pessoas escaladas com suas funções**.
 
 A contagem vem do **histórico** (`musicas_cantadas`); a `escala` só identifica a
 formação prevista. Se não houver escala para aquela data, a execução **continua

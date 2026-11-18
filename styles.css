@@ -165,6 +165,34 @@ button:active { transform: translateY(1px); }
   border-left: 3px solid var(--warn); padding-left: 10px;
 }
 
+/* Tom (afinação) com lápis alinhado na mesma linha */
+.tom-line {
+  display: flex; align-items: center; gap: 8px;
+  margin: 2px 0 12px; font-size: 14px; color: var(--muted);
+}
+.tom-line .tom-label { font-weight: 700; color: var(--text); }
+.tom-line .tom-value {
+  background: #11142e; border: 1px solid var(--line);
+  border-radius: 8px; padding: 2px 12px; color: var(--text); font-weight: 600;
+}
+.tom-line .tom-edit {
+  cursor: pointer; font-size: 15px; line-height: 1; opacity: .85;
+  transition: opacity .15s ease;
+}
+.tom-line .tom-edit:hover { opacity: 1; }
+
+/* Última formação da banda */
+.last-formation {
+  background: #11142e; border: 1px solid var(--line);
+  border-left: 3px solid var(--accent); border-radius: 12px;
+  padding: 12px 14px; margin: 0 0 18px;
+}
+.last-formation h3 { margin: 0 0 8px; font-size: 14px; color: var(--text); }
+.last-formation .lf-meta { color: var(--muted); font-weight: 400; font-size: 12px; }
+.last-formation .formation { margin-top: 0; }
+
+.exec-title { margin: 6px 0 10px; font-size: 15px; color: var(--muted); }
+
 .empty { text-align: center; color: var(--muted); padding: 40px 0; }
 
 .footer { text-align: center; color: var(--muted); font-size: 12px; padding: 20px; }
