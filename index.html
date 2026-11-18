@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Histórico de Músicas</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="logo">🎵</span>
+        <div>
+          <h1>Histórico de Músicas</h1>
+          <p class="subtitle">Busca, filtro por ano e estatísticas de cada música cantada</p>
+        </div>
+      </div>
+      <div class="source-badge" id="sourceBadge" title="Origem dos dados">…</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="toolbar">
+      <div class="field search">
+        <span class="icon">🔎</span>
+        <input id="searchInput" type="search" placeholder="Buscar por nome da música ou autor/banda…" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="yearSelect">Ano</label>
+        <select id="yearSelect">
+          <option value="">Todos os anos</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="sortSelect">Ordenar</label>
+        <select id="sortSelect">
+          <option value="count_desc">Mais cantadas</option>
+          <option value="count_asc">Menos cantadas</option>
+          <option value="name_asc">Nome (A–Z)</option>
+          <option value="last_desc">Mais recentes</option>
+        </select>
+      </div>
+      <button id="snapshotBtn" class="ghost" title="Baixar um snapshot local dos dados (data.json)">📥 Snapshot</button>
+    </section>
+
+    <div class="summary" id="summary"></div>
+
+    <div id="status" class="status"></div>
+
+    <section id="songList" class="song-list"></section>
+  </main>
+
+  <!-- Modal de estatísticas -->
+  <div class="modal-overlay" id="modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="Fechar">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    Dados em tempo real do Supabase · Projeto <strong>mmibnm</strong>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
